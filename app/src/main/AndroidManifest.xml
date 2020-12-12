@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MammoetSurvey">
         <activity
-            android:name=".add"
+            android:name=".DBActivity"
             android:label="@string/title_activity_add"
             android:theme="@style/Theme.MammoetSurvey.NoActionBar"></activity>
         <activity android:name=".MainActivity2" />

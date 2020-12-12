@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class add extends AppCompatActivity {
+public class DBActivity extends AppCompatActivity {
 
     ImageView chooseph;
     Button choosebt;
