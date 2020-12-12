@@ -12,21 +12,20 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="68dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="86dp"
         android:fontFamily="sans-serif"
         android:text="Main"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/add"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.10" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/add"
         android:layout_width="200dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="59dp"
         android:drawableLeft="@drawable/add"
         android:onClick="onClick"
         android:text="Add"
@@ -48,7 +47,6 @@
         app:backgroundTint="#323232"
         app:layout_constraintBottom_toTopOf="@+id/export"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add" />
 
@@ -56,14 +54,13 @@
         android:id="@+id/export"
         android:layout_width="200dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="231dp"
+        android:layout_marginBottom="230dp"
         android:drawableLeft="@drawable/export"
         android:text="Export"
         android:textSize="18sp"
         app:backgroundTint="#323232"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/explore" />
 
