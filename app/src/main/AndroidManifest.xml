@@ -13,6 +13,7 @@
             android:name=".add"
             android:label="@string/title_activity_add"
             android:theme="@style/Theme.MammoetSurvey.NoActionBar"></activity>
+        <activity android:name=".MainActivity2" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
