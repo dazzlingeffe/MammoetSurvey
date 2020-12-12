@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.MammoetSurvey.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MammoetSurvey.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MammoetSurvey.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

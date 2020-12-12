@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         String id = mDataBase.getKey();
         String Km = km.getText().toString();
         String Desc = desc.getText().toString();
-        Image Photo = photo.getI;
+        Image Photo = photo;
 
     }
 

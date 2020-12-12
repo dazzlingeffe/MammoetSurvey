@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "454480456191",
+    "firebase_url": "https://mammoetsurvey-default-rtdb.firebaseio.com",
+    "project_id": "mammoetsurvey",
+    "storage_bucket": "mammoetsurvey.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454480456191:android:51d98f6af0e629f35edfca",
+        "android_client_info": {
+          "package_name": "com.example.mammoetsurvey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454480456191-6qghkblps5bq6r3up3mq5tcpdfrlt570.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mammoetsurvey",
+            "certificate_hash": "22036243d1787ff625ed68ab48cb3ef40c17270b"
+          }
+        },
+        {
+          "client_id": "454480456191-ou7mtinrjr1g92bmt4v5inad4btbnjvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGHftQuX34LlapfbDQzirap7w5A7GSw-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454480456191-ou7mtinrjr1g92bmt4v5inad4btbnjvp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
