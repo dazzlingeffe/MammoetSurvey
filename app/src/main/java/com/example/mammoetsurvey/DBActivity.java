@@ -1,13 +1,16 @@
 package com.example.mammoetsurvey;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import android.os.Bundle;
+import com.google.firebase.database.ValueEventListener;
 
 public class DBActivity extends AppCompatActivity {
     private EditText km, desc;
@@ -23,7 +26,7 @@ public class DBActivity extends AppCompatActivity {
         init();
     }
 
-    public void init(){
+    public void init() {
         id = mDataBase.getKey();
         km = findViewById(R.id.km);
         desc = findViewById(R.id.desc);
@@ -36,6 +39,22 @@ public class DBActivity extends AppCompatActivity {
         Mark mark = new Mark(markId, km.getText().toString(), mapScreeshot.getDrawable(), desc.getText().toString(), photo.getDrawable());
 
         mDataBase.child("marks").child(markId).setValue(mark);
+    }
+
+    public Mark readMarks() {
+        ValueEventListener markListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                marker = dataSnapshot.getValue(Mark.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDataBase.addValueEventListener(markListener);
+        return marker;
     }
 //
 //    public void OnClickSave(View view){
