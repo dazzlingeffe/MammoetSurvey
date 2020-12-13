@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText km, desc;
     private ImageView photo, scr;
     private DatabaseReference mDataBase;
-    private String Metka = "Metka";
+    private String Mark = "Mark";
     private Button add;
 
     @Override
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, DBActivity.class);
+                intent.setClass(MainActivity.this, AddActivity.class);
                 startActivity(intent);
             }
         });
@@ -36,23 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void init(){
         add = (Button) findViewById(R.id.add);
-//        km = findViewById(R.id.km);
-//        desc = findViewById(R.id.desc);
-//        photo = findViewById(R.id.photo);
-//        scr = findViewById(R.id.scr);
-//        mDataBase = FirebaseDatabase.getInstance().getReference(Metka);
-//
+
     }
 
-//    public void OnClickSave(View view){
-//        String id = mDataBase.getKey();
-//        String Km = km.getText().toString();
-//        String Desc = desc.getText().toString();
-//        Image Photo = photo;
-//
-//    }
-//
-//    public void OnClickRead(View view){
-//
-//    }
+
 }
