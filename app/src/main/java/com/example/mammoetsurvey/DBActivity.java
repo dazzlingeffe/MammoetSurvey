@@ -25,29 +25,9 @@ public class DBActivity extends AppCompatActivity {
     private String mark = "Mark";
     private String id;
 
-
-    ImageView chooseph;
-    Button choosebt;
-
-    private static final int IMAGE_PICK_CODE = 1000;
-    private static final int PERMISSION_CODE = 1000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
-
-        chooseph = findViewById(R.id.chooseIV);
-        choosebt = findViewById(R.id.choosePhoto);
-
-        choosebt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-
-                }
-            }
-        });
         setContentView(R.layout.activity_main);
         init();
     }
@@ -67,19 +47,4 @@ public class DBActivity extends AppCompatActivity {
         mDataBase.child("marks").child(markId).setValue(mark);
     }
 
-    public Mark readMarks() {
-        ValueEventListener markListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                marker = dataSnapshot.getValue(Mark.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mDataBase.addValueEventListener(markListener);
-        return marker;
-    }
 }
