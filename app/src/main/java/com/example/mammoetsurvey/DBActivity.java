@@ -26,8 +26,6 @@ public class DBActivity extends AppCompatActivity {
     private String id;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
