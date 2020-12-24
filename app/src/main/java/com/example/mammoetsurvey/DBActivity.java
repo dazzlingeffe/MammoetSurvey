@@ -26,12 +26,12 @@ import java.util.List;
 public class DBActivity extends AppCompatActivity {
     private EditText km, desc;
     private ImageView photo, mapScreeshot;
-    private DatabaseReference mDataBase;
+    private static DatabaseReference mDataBase;
     private String mark = "Mark";
-    private String id;
+//    private static String id;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
-    private List<String> listData;
+    private static ArrayAdapter<String> adapter;
+    private static List<String> listData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class DBActivity extends AppCompatActivity {
     }
 
     public void init() {
-        id = mDataBase.getKey();
+//        id = mDataBase.getKey();
         km = findViewById(R.id.desc);
         desc = findViewById(R.id.desc);
         photo = findViewById(R.id.chooseph);
@@ -55,12 +55,14 @@ public class DBActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    private void writeNewMark(String markId, EditText km, EditText desc, ImageView mapScreeshot, ImageView photo) {
-        Mark mark = new Mark(markId, km.getText().toString(), mapScreeshot.getDrawable(), desc.getText().toString(), photo.getDrawable());
+    public static void writeNewMark(EditText km, EditText desc, ImageView mapScreeshot, ImageView photo) {
+        String id = mDataBase.getKey();
 
-        mDataBase.child("marks").child(markId).setValue(mark);
+        Mark mark = new Mark(id, km.getText().toString(), mapScreeshot.getDrawable(), desc.getText().toString(), photo.getDrawable());
+
+        mDataBase.child("marks").child(id).setValue(mark);
     }
-    private void readMarks() {
+    public static void readMarks() {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
