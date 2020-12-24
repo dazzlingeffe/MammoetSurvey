@@ -26,38 +26,21 @@ public class DBActivity extends AppCompatActivity {
     private String id;
 
 
-    ImageView chooseph;
-    Button choosebt;
 
-    private static final int IMAGE_PICK_CODE = 1000;
-    private static final int PERMISSION_CODE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
-
-        chooseph = findViewById(R.id.chooseIV);
-        choosebt = findViewById(R.id.choosePhoto);
-
-        choosebt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-
-                }
-            }
-        });
         setContentView(R.layout.activity_main);
         init();
     }
 
     public void init() {
         id = mDataBase.getKey();
-        km = findViewById(R.id.km);
+        km = findViewById(R.id.desc);
         desc = findViewById(R.id.desc);
-        photo = findViewById(R.id.photo);
-        mapScreeshot = findViewById(R.id.scr);
+        photo = findViewById(R.id.chooseph);
+        mapScreeshot = findViewById(R.id.chooseph);
         mDataBase = FirebaseDatabase.getInstance().getReference(mark);
     }
 
@@ -65,21 +48,5 @@ public class DBActivity extends AppCompatActivity {
         Mark mark = new Mark(markId, km.getText().toString(), mapScreeshot.getDrawable(), desc.getText().toString(), photo.getDrawable());
 
         mDataBase.child("marks").child(markId).setValue(mark);
-    }
-
-    public Mark readMarks() {
-        ValueEventListener markListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                marker = dataSnapshot.getValue(Mark.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mDataBase.addValueEventListener(markListener);
-        return marker;
     }
 }
