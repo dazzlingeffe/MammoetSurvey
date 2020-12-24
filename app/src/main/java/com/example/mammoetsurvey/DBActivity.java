@@ -44,10 +44,10 @@ public class DBActivity extends AppCompatActivity {
 
     public void init() {
         id = mDataBase.getKey();
-        km = findViewById(R.id.km);
+        km = findViewById(R.id.desc);
         desc = findViewById(R.id.desc);
-        photo = findViewById(R.id.photo);
-        mapScreeshot = findViewById(R.id.scr);
+        photo = findViewById(R.id.chooseph);
+        mapScreeshot = findViewById(R.id.chooseph);
         mDataBase = FirebaseDatabase.getInstance().getReference(mark);
         listView = findViewById(R.id.listView);
         listData = new ArrayList<>();
@@ -60,7 +60,6 @@ public class DBActivity extends AppCompatActivity {
 
         mDataBase.child("marks").child(markId).setValue(mark);
     }
-
     private void readMarks() {
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -81,5 +80,4 @@ public class DBActivity extends AppCompatActivity {
         };
         mDataBase.addValueEventListener(listener);
     }
-
 }
