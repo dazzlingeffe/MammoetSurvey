@@ -23,7 +23,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBActivity extends AppCompatActivity {
+public class
+DBActivity extends AppCompatActivity {
     private EditText km, desc;
     private ImageView photo, mapScreeshot;
     private static DatabaseReference mDataBase;
