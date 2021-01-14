@@ -2,6 +2,7 @@ package com.example.mammoetsurvey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import static com.example.mammoetsurvey.RouteActivity.newMark;
 
 
 public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -50,6 +53,8 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
         saveRouteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(AddRouteActivity.this, PickImageDesc.class);
                 newRoute = new Route(routeName.getText().toString(), startPosition, endPosition);
 
                 dbRef.child(newRoute.routeName).setValue(newRoute);
@@ -59,6 +64,8 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
                 dbRef.push();
 
+                newMark.route = newRoute.routeName;
+                startActivity(intent);
             }
         });
     }

@@ -22,6 +22,7 @@ import java.util.List;
 
 public class RouteActivity extends AppCompatActivity {
     public static Mark newMark;
+    Route selectedRoute;
     Button createRouteBtn;
     DatabaseReference routesRef;
     ListView listView;
@@ -65,6 +66,7 @@ public class RouteActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         routesRef = FirebaseDatabase.getInstance().getReference("routes");
         newMark = new Mark();
+        selectedRoute = new Route();
     }
 
     private void readRoutes() {
