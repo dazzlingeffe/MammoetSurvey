@@ -50,7 +50,7 @@ public class RouteActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                newMark.route = view.toString();
+                newMark.route = list.get(i);
                 Intent intent = new Intent();
                 intent.setClass(RouteActivity.this, PickImageDesc.class);
                 startActivity(intent);

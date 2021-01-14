@@ -13,13 +13,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.mammoetsurvey.RouteActivity.newMark;
 
 public class PickImageDesc extends AppCompatActivity {
 
     ImageView chooseph;
-    Button choosebt;
+    EditText description;
+    Button choosebt, nextBtn;
+    DatabaseReference marksRef;
+    Integer markID;
+    long maxid=0;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -28,10 +41,37 @@ public class PickImageDesc extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_image_desc);
+        marksRef=FirebaseDatabase.getInstance().getReference().child("Marks");
 
-        chooseph = findViewById(R.id.chooseimage);
-        choosebt = findViewById(R.id.choosebutton);
 
+        init();
+
+        marksRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    maxid=(snapshot.getChildrenCount());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newMark.desc = description.getText().toString();
+
+
+
+
+                marksRef.child(String.valueOf(maxid+1)).setValue(newMark);
+                marksRef.push();
+            }
+        });
         choosebt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,6 +89,14 @@ public class PickImageDesc extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void init() {
+        marksRef = FirebaseDatabase.getInstance().getReference("marks");
+        chooseph = findViewById(R.id.chooseimage);
+        choosebt = findViewById(R.id.choosebutton);
+        nextBtn = findViewById(R.id.button3);
+        description = (EditText)findViewById(R.id.descr);
     }
 
     private void pickImageFromGallery() {
