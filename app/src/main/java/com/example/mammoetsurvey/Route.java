@@ -9,6 +9,9 @@ public class Route {
     LatLng startPosition;
     LatLng endPosition;
 
+    public Route() {
+    }
+
     public Route(String routeName, LatLng startPosition, LatLng endPosition) {
         this.routeName = routeName;
         this.startPosition = startPosition;
