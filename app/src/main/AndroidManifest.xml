@@ -17,11 +17,6 @@
         <activity android:name=".AddRouteActivity"></activity>
         <activity android:name=".RouteActivity" />
         <activity android:name=".PickImageDesc" />
-        <activity android:name=".AddActivity" />
-        <activity
-            android:name=".DBActivity"
-            android:label="@string/title_activity_add"
-            android:theme="@style/Theme.MammoetSurvey.NoActionBar" />
         <activity android:name=".MainActivity2" />
         <activity android:name=".MainActivity">
             <intent-filter>

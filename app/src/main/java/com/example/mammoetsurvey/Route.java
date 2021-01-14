@@ -9,10 +9,9 @@ public class Route {
     LatLng startPosition;
     LatLng endPosition;
 
-    public Route(String routeName) {
+    public Route(String routeName, LatLng startPosition, LatLng endPosition) {
         this.routeName = routeName;
-        // Add start and end to constructor parameters
-//        this.startPosition = startPosition;
-//        this.endPosition = endPosition;
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
     }
 }
