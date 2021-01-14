@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -26,21 +27,48 @@ public class RouteActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> adapter;
     List<String> list;
-    ValueEventListener routesListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
+        init();
+
+        readRoutes();
+
+        createRouteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(RouteActivity.this, AddRouteActivity.class);
+                startActivity(intent);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                newMark.route = view.toString();
+                Intent intent = new Intent();
+                intent.setClass(RouteActivity.this, PickImageDesc.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void init() {
         createRouteBtn = findViewById(R.id.createroutebtn);
         listView = findViewById(R.id.routeslistview);
         list = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         routesRef = FirebaseDatabase.getInstance().getReference("routes");
+        newMark = new Mark();
+    }
 
-        routesListener = new ValueEventListener() {
+    private void readRoutes() {
+        ValueEventListener routesListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (list.size() > 0) list.clear();
@@ -58,13 +86,5 @@ public class RouteActivity extends AppCompatActivity {
             }
         };
         routesRef.addValueEventListener(routesListener);
-        createRouteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(RouteActivity.this, AddRouteActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
