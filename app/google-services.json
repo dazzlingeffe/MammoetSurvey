@@ -2,8 +2,8 @@
   "project_info": {
     "project_number": "454480456191",
     "firebase_url": "https://mammoet-survey-default-rtdb.firebaseio.com",
-    "project_id": "mammoetsurvey",
-    "storage_bucket": "mammoetsurvey.appspot.com"
+    "project_id": "mammoet-survey",
+    "storage_bucket": "mammoetsurvey"
   },
   "client": [
     {

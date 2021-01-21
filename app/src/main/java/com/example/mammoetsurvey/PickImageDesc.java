@@ -6,22 +6,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.UUID;
 
 import static com.example.mammoetsurvey.RouteActivity.newMark;
 
@@ -32,7 +56,13 @@ public class PickImageDesc extends AppCompatActivity {
     Button choosebt, nextBtn;
     DatabaseReference marksRef;
     Integer markID;
-    long maxid=0;
+    long maxid = 0;
+    private Uri filePath;
+    public Uri uploadUri;
+
+    private StorageReference mStorageRef;
+
+
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -41,10 +71,129 @@ public class PickImageDesc extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_image_desc);
-        marksRef=FirebaseDatabase.getInstance().getReference().child("Marks");
-
+        marksRef = FirebaseDatabase.getInstance().getReference().child("Marks");
 
         init();
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                newMark.desc = description.getText().toString();
+
+                marksRef.child(String.valueOf(maxid + 1)).setValue(newMark);
+                marksRef.push();
+            }
+        });
+        choosebt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickImageFromGallery();
+            }
+        });
+    }
+
+//    private void uploadImage() throws FileNotFoundException {
+//        Uri uri = filePath;
+//        if(uri!=null){
+//            final StorageReference obstacleRef = storageRef.child(uri.getLastPathSegment());
+//            UploadTask uploadTask =  obstacleRef.putFile(uri);
+//            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//                @Override
+//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                    if (!task.isSuccessful()) {
+//                        throw task.getException();
+//                    }
+//
+//                    return obstacleRef.getDownloadUrl();
+//                }
+//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Uri> task) {
+//                    if (task.isSuccessful()) {
+//                        Uri taskResult = task.getResult();
+//                        newMark.photo.setValue(taskResult.toString());
+//                    }
+//                }
+//            });
+//        }
+//    }
+//        StorageReference obstacleRef = storageRef.child("obstacle.jpg");
+//        InputStream stream = new FileInputStream (new File(String.valueOf(filePath)));
+//        UploadTask uploadTask =  obstacleRef.putStream(stream);
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+//            }
+//        });
+
+
+//        if (filePath != null) {
+//            storageRef.child("obs1.jpg").putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//                @Override
+//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                    if (!task.isSuccessful()) {
+//                        throw task.getException();
+//                    }
+//                    newMark.photo = storageRef.getDownloadUrl().toString();
+//                    return storageRef.getDownloadUrl();
+//                }
+//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Uri> task) {
+//                    if (task.isSuccessful()) {
+//                        Uri downloadUri = task.getResult();
+//                        Log.e("TAG", "then: " + downloadUri.toString());
+//
+//                        newMark.photo = storageRef.getDownloadUrl().toString();
+//                    } else {
+//                        Toast.makeText(PickImageDesc.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        } else {
+//            Toast.makeText(this, "Please upload image!", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+
+    private void uploadImage(){
+        Bitmap bitmap = ((BitmapDrawable) chooseph.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        byte[] byteArray = baos.toByteArray();
+        final StorageReference mRef = mStorageRef.child("my_image50");
+        UploadTask up = mRef.putBytes(byteArray);
+        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                return mRef.getDownloadUrl();
+
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                uploadUri = task.getResult();
+                Log.d("LogHueg","Image HUY:" + task.getResult());
+            }
+        });
+    }
+
+    private void init() {
+        marksRef = FirebaseDatabase.getInstance().getReference("marks");
+        chooseph = findViewById(R.id.chooseimage);
+        choosebt = findViewById(R.id.choosebutton);
+        nextBtn = findViewById(R.id.button3);
+        description = (EditText)findViewById(R.id.descr);
+        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
+
 
         marksRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,71 +208,25 @@ public class PickImageDesc extends AppCompatActivity {
 
             }
         });
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newMark.desc = description.getText().toString();
-
-
-
-
-                marksRef.child(String.valueOf(maxid+1)).setValue(newMark);
-                marksRef.push();
-            }
-        });
-        choosebt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
-                        requestPermissions(permissions, PERMISSION_CODE);
-                        pickImageFromGallery();
-                    } else {
-                        pickImageFromGallery();
-                    }
-                } else {
-                    pickImageFromGallery();
-                }
-            }
-        });
-    }
-
-    private void init() {
-        marksRef = FirebaseDatabase.getInstance().getReference("marks");
-        chooseph = findViewById(R.id.chooseimage);
-        choosebt = findViewById(R.id.choosebutton);
-        nextBtn = findViewById(R.id.button3);
-        description = (EditText)findViewById(R.id.descr);
     }
 
     private void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent();
         intent.setType("image/*");
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, 1);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    pickImageFromGallery();
-                } else {
-                    Toast.makeText(this, "Сперма коня!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+        if (resultCode == RESULT_OK && data != null && data.getData() !=null) {
+
             chooseph.setImageURI(data.getData());
+
+            uploadImage();
         }
     }
 
