@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +51,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
 
         saveRouteBtn = findViewById(R.id.savebtn);
         routeName = findViewById(R.id.routenametextbox);
-
+        saveRouteBtn.setEnabled(false);
         saveRouteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,34 +93,25 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                     endPosition = listpoints.get(1);
+                    saveRouteBtn.setEnabled(routeName.length() != 0);
+                    routeName.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            saveRouteBtn.setEnabled(charSequence.length() != 0);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
                 }
                 gMap.addMarker(markerOptions);
             }
         });
-
-        // show current location
-
-
-
-//        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                MarkerOptions markerOptions = new MarkerOptions();
-//                markerOptions.position(latLng);
-//                markerOptions.title("Start");
-//                gMap.clear();
-//                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-//                gMap.addMarker(markerOptions);
-//                startPosition = latLng;
-//            }
-//        });
-
-
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        gMap.addMarker(new MarkerOptions()
-//                .position(sydney)
-//                .title("Marker in Sydney"));
-//        gMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

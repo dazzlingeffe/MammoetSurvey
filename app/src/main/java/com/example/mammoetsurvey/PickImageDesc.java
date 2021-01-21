@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.renderscript.ScriptGroup;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +61,7 @@ public class PickImageDesc extends AppCompatActivity {
     long maxid = 0;
     private Uri filePath;
     public Uri uploadUri;
-
+    Boolean ready1;
     private StorageReference mStorageRef;
 
 
@@ -74,6 +76,9 @@ public class PickImageDesc extends AppCompatActivity {
         marksRef = FirebaseDatabase.getInstance().getReference().child("Marks");
 
         init();
+        nextBtn.setEnabled(false);
+
+
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,75 +99,13 @@ public class PickImageDesc extends AppCompatActivity {
         });
     }
 
-//    private void uploadImage() throws FileNotFoundException {
-//        Uri uri = filePath;
-//        if(uri!=null){
-//            final StorageReference obstacleRef = storageRef.child(uri.getLastPathSegment());
-//            UploadTask uploadTask =  obstacleRef.putFile(uri);
-//            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//                @Override
-//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                    if (!task.isSuccessful()) {
-//                        throw task.getException();
-//                    }
-//
-//                    return obstacleRef.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Uri> task) {
-//                    if (task.isSuccessful()) {
-//                        Uri taskResult = task.getResult();
-//                        newMark.photo.setValue(taskResult.toString());
-//                    }
-//                }
-//            });
-//        }
-//    }
-//        StorageReference obstacleRef = storageRef.child("obstacle.jpg");
-//        InputStream stream = new FileInputStream (new File(String.valueOf(filePath)));
-//        UploadTask uploadTask =  obstacleRef.putStream(stream);
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
-//            }
-//        });
-
-
-//        if (filePath != null) {
-//            storageRef.child("obs1.jpg").putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//                @Override
-//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                    if (!task.isSuccessful()) {
-//                        throw task.getException();
-//                    }
-//                    newMark.photo = storageRef.getDownloadUrl().toString();
-//                    return storageRef.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Uri> task) {
-//                    if (task.isSuccessful()) {
-//                        Uri downloadUri = task.getResult();
-//                        Log.e("TAG", "then: " + downloadUri.toString());
-//
-//                        newMark.photo = storageRef.getDownloadUrl().toString();
-//                    } else {
-//                        Toast.makeText(PickImageDesc.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-//        } else {
-//            Toast.makeText(this, "Please upload image!", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
+    void checkReady(){
+        if(ready1){
+            nextBtn.setEnabled(true);
+        }else{
+            nextBtn.setEnabled(false);
+        }
+    }
 
     private void uploadImage(){
         Bitmap bitmap = ((BitmapDrawable) chooseph.getDrawable()).getBitmap();
@@ -222,10 +165,26 @@ public class PickImageDesc extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null && data.getData() !=null) {
 
+        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
             chooseph.setImageURI(data.getData());
+            nextBtn.setEnabled(description.getText().toString().length() != 0);
+            description.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    ready1 = charSequence.length() != 0;
+                    checkReady();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             uploadImage();
         }
     }
