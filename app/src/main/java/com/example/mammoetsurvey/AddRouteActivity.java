@@ -35,6 +35,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
     LatLng startPosition;
     LatLng endPosition;
     ArrayList<LatLng> listpoints;
+    DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("routes");
+        dbRef = FirebaseDatabase.getInstance().getReference("routes");
 
         saveRouteBtn = findViewById(R.id.savebtn);
         routeName = findViewById(R.id.routenametextbox);
@@ -70,6 +71,9 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 startActivity(intent);
             }
         });
+    }
+    public void pushRoute() {
+        dbRef.push();
     }
 
     public void onMapReady(GoogleMap googleMap) {
