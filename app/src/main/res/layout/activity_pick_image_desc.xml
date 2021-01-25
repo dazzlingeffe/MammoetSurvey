@@ -7,15 +7,20 @@
     tools:context=".PickImageDesc">
 
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="271dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="33dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choosebutton"></Spinner>
+
     <ImageView
         android:id="@+id/chooseimage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="62dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="62dp"
-        android:layout_marginBottom="51dp"
-        app:layout_constraintBottom_toTopOf="@+id/choosebutton"
+        android:layout_width="287dp"
+        android:layout_height="215dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,21 +29,20 @@
         android:id="@+id/choosebutton"
         android:layout_width="180dp"
         android:layout_height="49dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginTop="16dp"
         android:text="ADD IMAGE"
-        app:layout_constraintBottom_toTopOf="@+id/descr"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseimage" />
 
     <EditText
         android:id="@+id/descr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
+        android:layout_width="223dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="112dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,10 +52,10 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="69dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="28dp"
         android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descr" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
