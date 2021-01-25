@@ -117,6 +117,7 @@ public class PickImageDesc extends AppCompatActivity {
 
 
                 newMark.desc = description.getText().toString();
+                newMark.photo = uploadUri.toString();
 
                 marksRef.child(String.valueOf(maxid + 1)).setValue(newMark);
                 marksRef.push();
@@ -130,12 +131,12 @@ public class PickImageDesc extends AppCompatActivity {
         });
     }
 
+    public void pushMark() {
+        marksRef.push();
+    }
+
     void checkReady(){
-        if(ready1){
-            nextBtn.setEnabled(true);
-        }else{
-            nextBtn.setEnabled(false);
-        }
+        nextBtn.setEnabled(ready1);
     }
 
     private void uploadImage(){
@@ -219,6 +220,4 @@ public class PickImageDesc extends AppCompatActivity {
             uploadImage();
         }
     }
-
-
 }
