@@ -143,7 +143,7 @@ public class PickImageDesc extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
         byte[] byteArray = baos.toByteArray();
-        final StorageReference mRef = mStorageRef.child("my_image50");
+        final StorageReference mRef = mStorageRef.child("obstacle_id" + String.valueOf(maxid + 1));
         UploadTask up = mRef.putBytes(byteArray);
         Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
@@ -166,7 +166,7 @@ public class PickImageDesc extends AppCompatActivity {
         choosebt = findViewById(R.id.choosebutton);
         nextBtn = findViewById(R.id.button3);
         description = (EditText)findViewById(R.id.descr);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
+        mStorageRef = FirebaseStorage.getInstance().getReference("obstacles");
 
 
         marksRef.addValueEventListener(new ValueEventListener() {
