@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,13 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.CameraUpdateFactory;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import static com.example.mammoetsurvey.RouteActivity.newMark;
-
 
 public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCallback {
     Route newRoute;
@@ -59,21 +52,18 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 Intent intent = new Intent();
                 intent.setClass(AddRouteActivity.this, PickImageDesc.class);
                 newRoute = Route.getInstance(routeName.getText().toString(), startPosition, endPosition);
-
-                dbRef.child(newRoute.routeName).setValue(newRoute);
-                dbRef.child(newRoute.routeName).child("startPosition/latitude").setValue(startPosition.latitude);
-                dbRef.child(newRoute.routeName).child("startPosition/longitude").setValue(startPosition.longitude);
-                dbRef.child(newRoute.routeName).child("endPosition/latitude").setValue(endPosition.latitude);
-                dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
-                dbRef.push();
-
-                newMark.route = newRoute.routeName;
+// this is in Route.java now
+//                dbRef.child(newRoute.routeName).setValue(newRoute);
+//                dbRef.child(newRoute.routeName).child("startPosition/latitude").setValue(startPosition.latitude);
+//                dbRef.child(newRoute.routeName).child("startPosition/longitude").setValue(startPosition.longitude);
+//                dbRef.child(newRoute.routeName).child("endPosition/latitude").setValue(endPosition.latitude);
+//                dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
+                newRoute.addRouteToDB();
+                newRoute.pushRoute();
+//                dbRef.push();
                 startActivity(intent);
             }
         });
-    }
-    public void pushRoute() {
-        dbRef.push();
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -81,7 +71,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
         gMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                if (listpoints.size()==2){
+                if (listpoints.size() == 2) {
                     listpoints.clear();
                     gMap.clear();
                 }
@@ -91,7 +81,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
 
-                if (listpoints.size()==1){
+                if (listpoints.size() == 1) {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     startPosition = listpoints.get(0);
                 } else {

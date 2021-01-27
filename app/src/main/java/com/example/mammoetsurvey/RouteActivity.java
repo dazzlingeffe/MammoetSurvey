@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RouteActivity extends AppCompatActivity {
-    public static Mark newMark;
     Route selectedRoute;
     Button createRouteBtn;
     DatabaseReference routesRef;
@@ -50,9 +49,7 @@ public class RouteActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedRoute = Route.getInstance();
-                selectedRoute.routeName = list.get(i);
-                newMark.route = list.get(i);
+                selectedRoute = Route.getInstance(list.get(i));
                 Intent intent = new Intent();
                 intent.setClass(RouteActivity.this, PickImageDesc.class);
                 startActivity(intent);
@@ -67,7 +64,6 @@ public class RouteActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         routesRef = FirebaseDatabase.getInstance().getReference("routes");
-        newMark = Mark.getInstance();
     }
 
     private void readRoutes() {
