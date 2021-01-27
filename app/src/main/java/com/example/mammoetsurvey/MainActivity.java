@@ -6,17 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-
-import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
-
-    private EditText km, desc;
-    private ImageView photo, scr;
-    private DatabaseReference mDataBase;
-    private String Mark = "Mark";
     private Button add;
 
     @Override
@@ -34,11 +25,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void init(){
+    public void init() {
         add = (Button) findViewById(R.id.add);
-
-
     }
-
-
 }
