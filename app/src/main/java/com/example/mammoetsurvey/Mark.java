@@ -1,20 +1,31 @@
 package com.example.mammoetsurvey;
 
-import android.graphics.drawable.Drawable;
-
 public class Mark {
-    public String km, desc, route;
-    public Drawable markOnMap;
+    private static Mark INSTANCE;
+    public String km, desc, route, markOnMap;
     public String photo;
 
-    public Mark() {
+    private Mark() {
 
     }
 
-    public Mark(String km, Drawable markOnMap, String desc, String photo) {
+    private Mark(String km, String markOnMap, String desc, String photo) {
         this.km = km;
         this.markOnMap = markOnMap;
         this.desc = desc;
         this.photo = photo;
+    }
+
+    public static Mark getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Mark();
+        }
+        return INSTANCE;
+    }
+    public static Mark getInstance(String km, String markOnMap, String desc, String photo) {
+        if (INSTANCE == null) {
+            INSTANCE = new Mark(km, markOnMap, desc, photo);
+        }
+        return INSTANCE;
     }
 }

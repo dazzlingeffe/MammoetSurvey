@@ -3,8 +3,8 @@ package com.example.mammoetsurvey;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Route {
-    public String routeName;
     private static Route INSTANCE;
+    public String routeName;
     LatLng startPosition;
     LatLng endPosition;
 

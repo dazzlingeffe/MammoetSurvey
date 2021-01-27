@@ -67,7 +67,7 @@ public class RouteActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         routesRef = FirebaseDatabase.getInstance().getReference("routes");
-        newMark = new Mark();
+        newMark = Mark.getInstance();
     }
 
     private void readRoutes() {
