@@ -50,6 +50,8 @@ public class RouteActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedRoute = Route.getInstance();
+                selectedRoute.routeName = list.get(i);
                 newMark.route = list.get(i);
                 Intent intent = new Intent();
                 intent.setClass(RouteActivity.this, PickImageDesc.class);
@@ -66,7 +68,6 @@ public class RouteActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         routesRef = FirebaseDatabase.getInstance().getReference("routes");
         newMark = new Mark();
-        selectedRoute = Route.getInstance();
     }
 
     private void readRoutes() {
