@@ -58,9 +58,9 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
 //                dbRef.child(newRoute.routeName).child("startPosition/longitude").setValue(startPosition.longitude);
 //                dbRef.child(newRoute.routeName).child("endPosition/latitude").setValue(endPosition.latitude);
 //                dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
-                newRoute.addRouteToDB();
+//                newRoute.addRouteToDB();
                 //
-                newRoute.pushRoute();
+//                newRoute.pushRoute();
 //                dbRef.push();
                 startActivity(intent);
             }

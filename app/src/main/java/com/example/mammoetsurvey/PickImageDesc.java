@@ -89,7 +89,7 @@ public class PickImageDesc extends AppCompatActivity {
 //this is in Mark.java now
 //                marksRef.child(String.valueOf(maxid + 1)).setValue(newMark);
 //                marksRef.push();
-                newMark.addMarkToDB();
+//                newMark.addMarkToDB();
 
                 Intent intent = new Intent();
                 intent.setClass(PickImageDesc.this, ConfirmationActivity.class);

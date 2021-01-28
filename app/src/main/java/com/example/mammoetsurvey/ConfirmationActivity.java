@@ -34,8 +34,10 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                newRoute.addRouteToDB();
                 newRoute.pushRoute();
                 newMark.uploadImage();
+                newMark.addMarkToDB();
                 newMark.pushMark();
             }
         });

@@ -26,8 +26,7 @@ public class Mark {
     long id;
     DatabaseReference marksRef = FirebaseDatabase.getInstance().getReference().child("marks");
     private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("obstacles");
-
-
+    public Uri uploadUri;
 
     private Mark() {
 
@@ -54,9 +53,7 @@ public class Mark {
 //        return INSTANCE;
 //    }
 
-    public void addMarkToDB() {
-        marksRef.child(String.valueOf(id)).setValue(this);
-    }
+    public void addMarkToDB() { marksRef.child(String.valueOf(id)).setValue(this); }
 
     public void pushMark() {
         marksRef.push();
@@ -65,7 +62,7 @@ public class Mark {
     public void uploadImage(){
         Bitmap bitmap = ((BitmapDrawable) obstacleFilepath.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
         byte[] byteArray = baos.toByteArray();
         final StorageReference mRef = mStorageRef.child("obstacle_id" + (id + 1));
         UploadTask up = mRef.putBytes(byteArray);
@@ -78,7 +75,7 @@ public class Mark {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 photo = task.getResult().toString();
-                Log.d("LogHueg","Image HUY:" + task.getResult());
+                Log.d("LogHueg","Image HUY:" + photo);
             }
         });
     }
