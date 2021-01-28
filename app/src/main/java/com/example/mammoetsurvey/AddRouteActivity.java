@@ -38,7 +38,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
         listpoints = new ArrayList<>();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapConfirm);
         mapFragment.getMapAsync(this);
 
         dbRef = FirebaseDatabase.getInstance().getReference("routes");
@@ -59,6 +59,7 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
 //                dbRef.child(newRoute.routeName).child("endPosition/latitude").setValue(endPosition.latitude);
 //                dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
                 newRoute.addRouteToDB();
+                //
                 newRoute.pushRoute();
 //                dbRef.push();
                 startActivity(intent);

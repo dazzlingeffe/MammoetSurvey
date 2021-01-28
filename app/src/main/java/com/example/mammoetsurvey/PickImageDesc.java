@@ -83,14 +83,19 @@ public class PickImageDesc extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newMark.desc = description.getText().toString();
-                newMark.photo = uploadUri.toString();
+//                newMark.photo = uploadUri.toString();
                 newMark.id = maxid + 1;
                 newMark.route = Route.getInstance().routeName;
 //this is in Mark.java now
 //                marksRef.child(String.valueOf(maxid + 1)).setValue(newMark);
 //                marksRef.push();
                 newMark.addMarkToDB();
-                newMark.pushMark();
+
+                Intent intent = new Intent();
+                intent.setClass(PickImageDesc.this, ConfirmationActivity.class);
+                startActivity(intent);
+                //
+//                newMark.pushMark();
             }
         });
         choosebt.setOnClickListener(new View.OnClickListener() {
@@ -105,41 +110,41 @@ public class PickImageDesc extends AppCompatActivity {
         nextBtn.setEnabled(ready1);
     }
 
-    private void uploadImage(){
-        Bitmap bitmap = ((BitmapDrawable) chooseph.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
-        byte[] byteArray = baos.toByteArray();
-        final StorageReference mRef = mStorageRef.child("obstacle_id" + maxid + 1);
-        UploadTask up = mRef.putBytes(byteArray);
-        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                return mRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                uploadUri = task.getResult();
-                Log.d("LogHueg","Image HUY:" + task.getResult());
-            }
-        });
-    }
+//    private void uploadImage(){
+//        Bitmap bitmap = ((BitmapDrawable) newMark.obstacleFilepath.getDrawable()).getBitmap();
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+//        byte[] byteArray = baos.toByteArray();
+//        final StorageReference mRef = mStorageRef.child("obstacle_id" + maxid + 1);
+//        UploadTask up = mRef.putBytes(byteArray);
+//        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+//            @Override
+//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+//                return mRef.getDownloadUrl();
+//            }
+//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Uri> task) {
+//                uploadUri = task.getResult();
+//                Log.d("LogHueg","Image HUY:" + task.getResult());
+//            }
+//        });
+//    }
 
     private void init() {
+        newMark = Mark.getInstance();
         marksRef = FirebaseDatabase.getInstance().getReference("marks");
-        chooseph = findViewById(R.id.chooseimage);
+        newMark.obstacleFilepath = findViewById(R.id.chooseimage);
         choosebt = findViewById(R.id.choosebutton);
         nextBtn = findViewById(R.id.button3);
         description = (EditText)findViewById(R.id.descr);
         mStorageRef = FirebaseStorage.getInstance().getReference("obstacles");
-        newMark = Mark.getInstance();
 
         marksRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    maxid=(snapshot.getChildrenCount());
+                    maxid = (snapshot.getChildrenCount());
                 }
             }
 
@@ -163,7 +168,7 @@ public class PickImageDesc extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-            chooseph.setImageURI(data.getData());
+            newMark.obstacleFilepath.setImageURI(data.getData());
             nextBtn.setEnabled(description.getText().toString().length() != 0);
             description.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -181,7 +186,8 @@ public class PickImageDesc extends AppCompatActivity {
 
                 }
             });
-            uploadImage();
+            //
+//            newMark.uploadImage();
         }
     }
 }

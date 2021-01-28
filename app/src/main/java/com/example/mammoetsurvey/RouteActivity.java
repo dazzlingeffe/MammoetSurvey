@@ -25,8 +25,8 @@ public class RouteActivity extends AppCompatActivity {
     Button createRouteBtn;
     DatabaseReference routesRef;
     ListView listView;
-    ArrayAdapter<String> adapter;
-    List<String> list;
+    ArrayAdapter<Route> adapter;
+    List<Route> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class RouteActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedRoute = Route.getInstance(list.get(i));
+                selectedRoute = Route.getInstance(list.get(i).routeName, list.get(i).startPosition, list.get(i).endPosition);
                 Intent intent = new Intent();
                 intent.setClass(RouteActivity.this, PickImageDesc.class);
                 startActivity(intent);
@@ -74,7 +74,7 @@ public class RouteActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Route tmp = ds.getValue(Route.class);
                     assert tmp != null;
-                    list.add(tmp.routeName);
+                    list.add(tmp);
                 }
                 adapter.notifyDataSetChanged();
             }
