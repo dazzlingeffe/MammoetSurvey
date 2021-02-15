@@ -11,6 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,8 +28,9 @@ public class RouteActivity extends AppCompatActivity {
     Button createRouteBtn;
     DatabaseReference routesRef;
     ListView listView;
-    ArrayAdapter<Route> adapter;
-    List<Route> list;
+    ArrayAdapter<String> adapter;
+    List<String> list;
+    double tmpLat, tmpLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,18 @@ public class RouteActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedRoute = Route.getInstance(list.get(i).routeName, list.get(i).startPosition, list.get(i).endPosition);
+                selectedRoute = Route.getInstance(list.get(i));
+                routesRef.child(selectedRoute.routeName).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        tmpLat = Double.parseDouble(String.valueOf(task.getResult().child("endPosition").child("latitude").getValue()));
+                        tmpLng = Double.parseDouble(String.valueOf(task.getResult().child("endPosition").child("longitude").getValue()));
+                        selectedRoute.endPosition = new LatLng(tmpLat, tmpLng);
+                        tmpLat = Double.parseDouble(String.valueOf(task.getResult().child("startPosition").child("latitude").getValue()));
+                        tmpLng = Double.parseDouble(String.valueOf(task.getResult().child("startPosition").child("longitude").getValue()));
+                        selectedRoute.startPosition = new LatLng(tmpLat, tmpLng);
+                    }
+                });
                 Intent intent = new Intent();
                 intent.setClass(RouteActivity.this, PickImageDesc.class);
                 startActivity(intent);
@@ -74,7 +89,7 @@ public class RouteActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Route tmp = ds.getValue(Route.class);
                     assert tmp != null;
-                    list.add(tmp);
+                    list.add(tmp.routeName);
                 }
                 adapter.notifyDataSetChanged();
             }

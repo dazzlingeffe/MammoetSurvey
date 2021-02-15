@@ -162,7 +162,6 @@ public class PickImageDesc extends AppCompatActivity {
         startActivityForResult(intent, 1);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -186,8 +185,6 @@ public class PickImageDesc extends AppCompatActivity {
 
                 }
             });
-            //
-//            newMark.uploadImage();
         }
     }
 }

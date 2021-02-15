@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -29,6 +30,7 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapConfirm);
         mapFragment.getMapAsync(this);
+
 
         init();
 
@@ -59,5 +61,6 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
 
         gMap.addMarker(new MarkerOptions().position(newRoute.startPosition).title(newRoute.routeName + ": start"));
         gMap.addMarker(new MarkerOptions().position(newRoute.endPosition).title(newRoute.routeName + ": end"));
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(newRoute.startPosition));
     }
 }
