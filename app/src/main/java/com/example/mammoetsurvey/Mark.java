@@ -76,7 +76,6 @@ public class Mark {
             public void onComplete(@NonNull Task<Uri> task) {
                 photo = task.getResult().toString();
                 addMarkToDB();
-                Log.d("LogHueg","Image HUY:" + photo);
             }
         });
     }

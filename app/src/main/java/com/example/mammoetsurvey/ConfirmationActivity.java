@@ -44,11 +44,6 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.mapConfirm);
-//        mapFragment.getMapAsync(this);
-
-
         init();
 
         saveBtn.setOnClickListener(new View.OnClickListener() {

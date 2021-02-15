@@ -52,16 +52,6 @@ public class AddRouteActivity extends AppCompatActivity implements OnMapReadyCal
                 Intent intent = new Intent();
                 intent.setClass(AddRouteActivity.this, PickImageDesc.class);
                 newRoute = Route.getInstance(routeName.getText().toString(), startPosition, endPosition);
-// this is in Route.java now
-//                dbRef.child(newRoute.routeName).setValue(newRoute);
-//                dbRef.child(newRoute.routeName).child("startPosition/latitude").setValue(startPosition.latitude);
-//                dbRef.child(newRoute.routeName).child("startPosition/longitude").setValue(startPosition.longitude);
-//                dbRef.child(newRoute.routeName).child("endPosition/latitude").setValue(endPosition.latitude);
-//                dbRef.child(newRoute.routeName).child("endPosition/longitude").setValue(endPosition.longitude);
-//                newRoute.addRouteToDB();
-                //
-//                newRoute.pushRoute();
-//                dbRef.push();
                 startActivity(intent);
             }
         });

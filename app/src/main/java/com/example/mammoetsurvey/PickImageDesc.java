@@ -83,19 +83,11 @@ public class PickImageDesc extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 newMark.desc = description.getText().toString();
-//                newMark.photo = uploadUri.toString();
                 newMark.id = maxid + 1;
                 newMark.route = Route.getInstance().routeName;
-//this is in Mark.java now
-//                marksRef.child(String.valueOf(maxid + 1)).setValue(newMark);
-//                marksRef.push();
-//                newMark.addMarkToDB();
-
                 Intent intent = new Intent();
                 intent.setClass(PickImageDesc.this, ConfirmationActivity.class);
                 startActivity(intent);
-                //
-//                newMark.pushMark();
             }
         });
         choosebt.setOnClickListener(new View.OnClickListener() {
@@ -109,27 +101,6 @@ public class PickImageDesc extends AppCompatActivity {
     void checkReady(){
         nextBtn.setEnabled(ready1);
     }
-
-//    private void uploadImage(){
-//        Bitmap bitmap = ((BitmapDrawable) newMark.obstacleFilepath.getDrawable()).getBitmap();
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
-//        byte[] byteArray = baos.toByteArray();
-//        final StorageReference mRef = mStorageRef.child("obstacle_id" + maxid + 1);
-//        UploadTask up = mRef.putBytes(byteArray);
-//        Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//            @Override
-//            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                return mRef.getDownloadUrl();
-//            }
-//        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Uri> task) {
-//                uploadUri = task.getResult();
-//                Log.d("LogHueg","Image HUY:" + task.getResult());
-//            }
-//        });
-//    }
 
     private void init() {
         newMark = Mark.getInstance();
