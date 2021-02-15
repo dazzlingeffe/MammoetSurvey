@@ -42,7 +42,7 @@ public class PickImageDesc extends AppCompatActivity {
     public Uri uploadUri;
     Boolean ready1;
     private StorageReference mStorageRef;
-    String[] data = {"ЛЭП","Дорожные знаки", "Деревья","Металлоконструкции","Другое"};
+    String[] data = {"ЛЭП", "Дорожные знаки", "Деревья", "Металлоконструкции", "Другое"};
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;

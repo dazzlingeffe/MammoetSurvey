@@ -64,7 +64,7 @@ public class Mark {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,50, baos);
         byte[] byteArray = baos.toByteArray();
-        final StorageReference mRef = mStorageRef.child("obstacle_id" + (id + 1));
+        final StorageReference mRef = mStorageRef.child("obstacle_id" + (id));
         UploadTask up = mRef.putBytes(byteArray);
         Task<Uri> task = up.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
@@ -75,6 +75,7 @@ public class Mark {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 photo = task.getResult().toString();
+                addMarkToDB();
                 Log.d("LogHueg","Image HUY:" + photo);
             }
         });

@@ -2,6 +2,7 @@ package com.example.mammoetsurvey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,11 +35,13 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(ConfirmationActivity.this, MainActivity.class);
                 newRoute.addRouteToDB();
                 newRoute.pushRoute();
                 newMark.uploadImage();
-                newMark.addMarkToDB();
                 newMark.pushMark();
+                startActivity(intent);
             }
         });
     }
