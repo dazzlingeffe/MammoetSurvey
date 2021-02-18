@@ -94,8 +94,9 @@ public class ConfirmationActivity extends AppCompatActivity implements OnMapRead
 
         gMap.addMarker(new MarkerOptions().position(newRoute.startPosition).title(newRoute.routeName + ": start"));
         gMap.addMarker(new MarkerOptions().position(newRoute.endPosition).title(newRoute.routeName + ": end"));
-        gMap.addMarker(new MarkerOptions().position(location).title("obstacle").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        gMap.addMarker(new MarkerOptions().position(location).title("obstacle").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))).showInfoWindow();
         gMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
     }
 
     @Override
